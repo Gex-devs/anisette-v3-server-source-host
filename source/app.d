@@ -17,8 +17,11 @@ import std.path;
 import std.uni;
 import std.uuid;
 import std.zip;
+import std.exception;
 
+import vibe.http.fileserver : serveStaticFile, sendFile;
 import vibe.core.core;
+import vibe.core.path;
 import vibe.http.websockets;
 import vibe.http.server;
 import vibe.http.router;
@@ -44,6 +47,8 @@ __gshared Device v1Device;
 
 __gshared Duration timeout;
 
+__gshared ushort port;
+
 int main(string[] args) {
 	debug {
 		configureLoggingProvider(new shared DefaultProvider(true, Levels.DEBUG));
@@ -54,7 +59,7 @@ int main(string[] args) {
 	Logger log = getLogger();
 	log.info(brandingCode);
 	string hostname = "0.0.0.0";
-	ushort port = 6969;
+	port = 6969;
 
 	string configurationPath = expandTilde("~/.config/anisette-v3");
 
@@ -438,6 +443,35 @@ class AnisetteService {
 
 		log.infoF!"[>> %s] Okay all right here is your provisioning data."(requestUUID);
 		socket.send(response.toString(JSONOptions.doNotEscapeSlashes));
+	}
+	
+	@method(HTTPMethod.GET)
+	@path("/altsource")
+	void provideJsonSource(HTTPServerRequest req, HTTPServerResponse res) {
+
+		JSONValue altsource = parseJSON(file.readText("/opt/altsource.json"));
+		// log.info("Setting download URL for stremio");
+		altsource["apps"][0]["versions"][0]["downloadURL"] = "http://athena.apps:6969/apps-ipa/stremio_iOS.ipa";
+		res.writeJsonBody(altsource);
+	}
+
+	@method(HTTPMethod.GET)
+	@path("/apps")
+	void fetchApps(HTTPServerRequest req, HTTPServerResponse res) {
+		
+		string fileName = req.query.get("name", "none");
+
+		if(fileName == "none")
+		{
+			// Return error
+			res.statusCode = 500;
+            res.writeBody("Invalid app name");
+            return;
+		}
+
+		auto filePath = "/opt/apps-ipa/" ~ fileName;
+		NativePath p = filePath;
+		sendFile(req, res, p);
 	}
 }
 

@@ -19,6 +19,10 @@ RUN apt-get update && apt-get install --no-install-recommends -y ca-certificates
 # Copy build artefacts to run
 WORKDIR /opt/
 COPY --from=builder /opt/anisette-v3-server /opt/anisette-v3-server
+RUN mkdir -p /opt/apps-ipa/
+COPY altsource.json /opt/
+COPY apps-ipa /opt/apps-ipa/
+
 
 # Create default provisioning folder
 RUN mkdir -p /opt/anisette-v3/provisioning
