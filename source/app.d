@@ -451,7 +451,7 @@ class AnisetteService {
 
 		JSONValue altsource = parseJSON(file.readText("/opt/altsource.json"));
 		// log.info("Setting download URL for stremio");
-		altsource["apps"][0]["versions"][0]["downloadURL"] = "http://athena.apps:6969/apps-ipa/stremio_iOS.ipa";
+		altsource["apps"][0]["versions"][0]["downloadURL"] = "http://athena.apps:6969/apps?name=stremio_iOS.ipa";
 		res.writeJsonBody(altsource);
 	}
 
