@@ -448,12 +448,19 @@ class AnisetteService {
 	@method(HTTPMethod.GET)
 	@path("/altsource")
 	void provideJsonSource(HTTPServerRequest req, HTTPServerResponse res) {
-
 		JSONValue altsource = parseJSON(file.readText("/opt/altsource.json"));
 		// log.info("Setting download URL for stremio");
 		altsource["apps"][0]["versions"][0]["downloadURL"] = "http://athena.apps:6969/apps?name=stremio_iOS.ipa";
 		res.writeJsonBody(altsource);
 	}
+
+	@method(HTTPMethod.GET)
+	@path("/altsource")
+	void provideJsonSource(HTTPServerRequest req, HTTPServerResponse res) {
+		JSONValue ansitsource = parseJSON(file.readText("/opt/ansitsource.json"));
+		res.writeJsonBody(ansitsource);
+	}
+
 
 	@method(HTTPMethod.GET)
 	@path("/apps")

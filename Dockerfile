@@ -21,6 +21,7 @@ WORKDIR /opt/
 COPY --from=builder /opt/anisette-v3-server /opt/anisette-v3-server
 RUN mkdir -p /opt/apps-ipa/
 COPY altsource.json /opt/
+COPY ansitsource.json /opt/
 COPY apps-ipa /opt/apps-ipa/
 
 

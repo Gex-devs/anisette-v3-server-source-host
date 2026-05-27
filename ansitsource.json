@@ -1,0 +1,8 @@
+{
+    "servers": [
+        {
+            "name": "Ged Anisette Server",
+            "address": "http://athena.apps:6969"
+        }
+    ]
+}
