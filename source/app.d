@@ -455,7 +455,7 @@ class AnisetteService {
 	}
 
 	@method(HTTPMethod.GET)
-	@path("/altsource")
+	@path("/anisource")
 	void provideJsonSource(HTTPServerRequest req, HTTPServerResponse res) {
 		JSONValue ansitsource = parseJSON(file.readText("/opt/ansitsource.json"));
 		res.writeJsonBody(ansitsource);
