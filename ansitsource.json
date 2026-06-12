@@ -2,7 +2,7 @@
     "servers": [
         {
             "name": "Ged Anisette Server",
-            "address": "http://athena.apps:6969"
+            "address": "http://192.168.0.108:6969"
         }
     ]
 }
