@@ -353,6 +353,7 @@ class AnisetteService {
 		}
 		scope ADI adi = makeGarbageCollectedADI(libraryPath);
 		auto tmpProvisioningPath = provisioningPath.buildPath(identifier);
+		file.mkdirRecurse(tmpProvisioningPath);
 		adi.provisioningPath = tmpProvisioningPath;
 		scope(exit) {
 			if (file.exists(tmpProvisioningPath)) {
